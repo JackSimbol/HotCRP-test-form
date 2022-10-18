@@ -276,11 +276,11 @@ function unparse(subid){ //总unparse函数
         var qbody = "[" + document.getElementById(id).innerHTML + "]";
         var qtype = "[" + document.getElementById(id).getAttribute("qtype") + "]"; 
         switch(qtype){
-            case "type=radio":{ //对应get不同题型
+            case "[radio]":{ //对应get不同题型
                 qdetail = unparse_radio(id);
                 break;
             }
-            case "type=checkbox":{
+            case "[checkbox]":{
                 if(check_max(id))
                     qdetail = unparse_checkbox(id);
                 else{
@@ -289,7 +289,7 @@ function unparse(subid){ //总unparse函数
                 }
                 break;
             }
-            case "type=slider":{
+            case "[slider]":{
                 if(!check(id)){
                     qdetail = null;
                     if(document.getElementById(id).getAttribute("nec") == "true")
@@ -299,7 +299,7 @@ function unparse(subid){ //总unparse函数
                     qdetail = unparse_slider(id);
                 break;
             }
-            case "type=text":{
+            case "[text]":{
                 qdetail = unparse_text(id);
                 break;
             }
