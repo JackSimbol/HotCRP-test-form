@@ -307,10 +307,46 @@ function unparse(subid){ //总unparse函数
                 qdetail = "default";
             }
         } // 
-        quest += "{" + qbody + qtype + qdetail + "}";
+        quest += "{[" + id + "]" + qtype + qbody + qdetail + "}";
     }
     return quest;
 }
+
+/* Send parameters from JS to PHP */
+function $ajax({type="get", url, data, success, error}){
+    var xhr = null;
+    try{
+        xhr = new XMLHttpRequest();
+
+    }catch(error){
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    if(type == "get" && data){
+        url += "?text=" + data;
+    }
+    xhr.open(type, url, true);
+    if(type=="get"){
+        xhr.send();
+    }else{
+        alert("Invalid interface. Supposed to send data to $GET.");
+    }
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4){
+            if(xhr.status == 200){
+                if(success){
+                    success(xhr.responseText);
+                }
+            }else{
+                if(error){
+                    error("Error: " + xhr.status);
+                }
+            }
+        }
+    }
+}
+
+
+
 
 // Implements on demo
 
