@@ -257,10 +257,10 @@ function radio_loop(iid, id){
 
 function slider_loop(s_idlist, iid){
     addListener(iid+"_slider", iid+"_weight");
-    document.getElementById(iid+"_slider").addEventListener("change", function(){
+    document.getElementById(iid+"_slider").addEventListener("input", function(){
         process_slider(s_idlist, iid+"_slider")
     });
-    document.getElementById(iid+"_weight").addEventListener("change", function(){
+    document.getElementById(iid+"_weight").addEventListener("input", function(){
         process_weight(s_idlist, iid+"_weight")
     });
 }
