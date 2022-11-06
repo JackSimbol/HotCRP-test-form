@@ -266,31 +266,32 @@ function slider_loop(s_idlist, iid){
 }
 
 function generate_form(inText, display_space){ //先生成html主体，再向主体上绑定事件
-    console.log("reading...");
     form_info = readText(inText);
-    console.log("generating...");
     qlist = [];
     var qform = "";
+    var Index = 1;
     for(var quest_info of form_info){
         qlist.push(quest_info.qid);
+        body = index + "." + quest_info.qbody;
         switch(quest_info.qtype){
             case 'radio': {
-                qform += create_radio(quest_info.qid, quest_info.qbody, quest_info.qdetail, quest_info.qproperty);
+                qform += create_radio(quest_info.qid, body, quest_info.qdetail, quest_info.qproperty);
                 break;
             }
             case 'slider': {
-                qform += create_slider(quest_info.qid, quest_info.qbody, quest_info.qdetail, quest_info.qproperty);
+                qform += create_slider(quest_info.qid, body, quest_info.qdetail, quest_info.qproperty);
                 break;
             }
             case 'checkbox': {
-                qform += create_checkbox(quest_info.qid, quest_info.qbody, quest_info.qdetail, quest_info.qproperty);
+                qform += create_checkbox(quest_info.qid, body, quest_info.qdetail, quest_info.qproperty);
                 break;
             }
             case 'text': {
-                qform += create_text(quest_info.qid, quest_info.qbody, quest_info.qdetail, quest_info.qproperty);
+                qform += create_text(quest_info.qid, body, quest_info.qdetail, quest_info.qproperty);
                 break;
             }
         }
+        Index += 1;
     }
     qstring = "";
     for(var id of qlist){
@@ -300,7 +301,6 @@ function generate_form(inText, display_space){ //先生成html主体，再向主
     qform += `<button id="submit" idlist="` + qstring + `">submit</button><script src="qtest.js"></script>`;
     /* <button id="submit" idlist="radio_1,slider_1,checkbox_1,text_1">submit</button> */
     console.log(qform);
-    console.log("Done.");
     display_space.innerHTML = qform; // display_space must be a 'div' or other space
     for(var quest of form_info){
         id = quest.qid;
@@ -324,8 +324,19 @@ function generate_form(inText, display_space){ //先生成html主体，再向主
             }
         }
     }
+
+    /* Modify this part to debug js-php interface */
     document.getElementById("submit").addEventListener("click", function(){
-        console.log(unparse("submit"));
+        $ajax({
+            url: "main/review.php", //the address of the php file you want to send the parameter to
+            data: {text: unparse("submit")},
+            success: function(msg){ //modify this pair of functions to see if anything's wrong
+                alert("Success: " + msg);
+            },
+            error: function(msg){
+                alert("Error: " + msg);
+            }
+        })
     });
     return;
 }
