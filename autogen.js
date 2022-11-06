@@ -272,7 +272,7 @@ function generate_form(inText, display_space){ //先生成html主体，再向主
     var Index = 1;
     for(var quest_info of form_info){
         qlist.push(quest_info.qid);
-        body = index + "." + quest_info.qbody;
+        body = Index + "." + quest_info.qbody;
         switch(quest_info.qtype){
             case 'radio': {
                 qform += create_radio(quest_info.qid, body, quest_info.qdetail, quest_info.qproperty);
